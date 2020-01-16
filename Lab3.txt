@@ -37,46 +37,46 @@ Output: BulkWriteResult({
 
 Fråga 3:  Hitta ett dokument där namnet är “Malmö” och visa bara “namn” och “population”.
 
-Input:
+Input: db.cities.find({"name": "Malmö"},{_id:0})
 
-Output:
+Output: { "name" : "Malmö", "population" : 280415 }
 
 
 Fråga 4:  Uppdatera dokumentet som har “namn” “Göteborg” med “population” 549890
 
 
-Input:
+Input: db.cities.updateOne({"name":"Göteborg"},{$set: {"population":549890}})
 
-Output:
+Output:{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
 
 
 Fråga 5:  Ta bort dokumentet med _id:4
 
-Input:
+Input: db.cities.deleteOne({"_id":4})
 
-Output:
+Output: { "acknowledged" : true, "deletedCount" : 1 }
 
 
 Fråga 6:  Uppdatera dokumentet som har “namn” “Västerås” och öka (med increment)
           ”population” fält så att det blir 110879. (increment by 2)
 
-Input:
+Input: db.cities.updateOne({"name":"Västerås"},{$inc:{"population":2}})
 
-Output:
+Output: { "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
 
 
 Fråga 7:  Lägg till ett fält “country” och värdet “Sweden” till alla dokument.
 
-Input:
+Input: db.cities.update({},{$set: {country: "Sweden"}}, {multi: true})
 
-Output:
+Output: WriteResult({ "nMatched" : 4, "nUpserted" : 0, "nModified" : 4 })
 
 
 Fråga 8:  Byt namn på fältet “country” till “Country”.
 
-Input:
+Input: db.cities.update({},{$rename: {"country": "Country"}}, {multi: true})
 
-Output:
+Output: WriteResult({ "nMatched" : 4, "nUpserted" : 0, "nModified" : 4 })
 
 -----------------------------------------------------------------------
 Task 2
