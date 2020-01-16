@@ -13,9 +13,25 @@ Fråga 2:  Sätt in följande dokument i en kollektion med namn: cities
           e. _id:5, name: Västerås, population: 110877
 
 
-Input:
+Input: db.cities.insert(
+[
+  {_id:1, name: "Stockholm", population: 1372565},
+  {_id:2, name: "Göteborg", population: 549839},
+  {_id:3, name: "Malmö", population: 280415},
+  {_id:4, name: "Uppsala", population:140454},
+  {_id:5, name: "Västerås", population: 110877}
+])
 
-Output:
+Output: BulkWriteResult({
+        "writeErrors" : [ ],
+        "writeConcernErrors" : [ ],
+        "nInserted" : 5,
+        "nUpserted" : 0,
+        "nMatched" : 0,
+        "nModified" : 0,
+        "nRemoved" : 0,
+        "upserted" : [ ]
+})
 
 
 
