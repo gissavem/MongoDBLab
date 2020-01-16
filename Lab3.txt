@@ -66,21 +66,21 @@ Output:
 Task 2
 Fråga 1:  Skapa en databas vid namn animalsdb.
 
-Input:
+Input: use animalsdb
 
-Output:
+Output: switched to db animalsdb
 
 
 Fråga 2:  Gå till databasen animalsdb.
 
-Input:
+Input: use animalsdb
 
-Output:
+Output: switched to db animalsdb
 
 
 Fråga 3:  Skriv i mongo-skalet : load ("animals.js"). Vad gör den raden? Visa resultatet.
 
-Input:
+Input: load ("animals.js")
 
 Output:
 
