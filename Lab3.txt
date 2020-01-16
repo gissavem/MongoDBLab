@@ -133,9 +133,9 @@ Output: 16
 
 Fråga 6:  Lägg till en array “favorit_food” med “blueberry, honey och ants” för “Bear” .
 
-Input:
+Input: db.animals.updateOne({name: "Bear"}, {$set: {favorit_food: ["honey", "ants"] }})
 
-Output:
+Output: { "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
 
 
 Fråga 7:  Ta bort ants och honey från arrayen “favorit_food” och “rounded ears” från arrayen “data” för “Bear”.
