@@ -19,19 +19,14 @@ Output:
 
 
 
-Fråga 3:
+Fråga 3: Hitta ett dokument där namnet är “Malmö” och visa bara “namn” och “population”.
 
 Input:
 
 Output:
 
 
-Fråga 4:Sätt in följande dokument i en kollektion med namn: cities
-a. _id:1, name: Stockholm, population: 1372565
-b. _id:2, name: Göteborg, population: 549839
-c. _id:3, name: Malmö, population: 280415
-d. _id:4, name: Uppsala, population: 140454
-e. _id:5, name: Västerås, population: 110877
+Fråga 4: Uppdatera dokumentet som har “namn” “Göteborg” med “population” 549890
 
 
 Input:
@@ -39,28 +34,29 @@ Input:
 Output:
 
 
-Fråga 5:
+Fråga 5: Ta bort dokumentet med _id:4
 
 Input:
 
 Output:
 
 
-Fråga 6:
+Fråga 6: Uppdatera dokumentet som har “namn” “Västerås” och öka (med increment)
+        ”population” fält så att det blir 110879. (increment by 2)
 
 Input:
 
 Output:
 
 
-Fråga 7:
+Fråga 7: Lägg till ett fält “country” och värdet “Sweden” till alla dokument.
 
 Input:
 
 Output:
 
 
-Fråga 8:
+Fråga 8: Byt namn på fältet “country” till “Country”.
 
 Input:
 
@@ -68,111 +64,111 @@ Output:
 
 -----------------------------------------------------------------------
 Task 2
-Fråga 1:
+Fråga 1: Skapa en databas vid namn animalsdb.
 
 Input:
 
 Output:
 
 
-Fråga 2:
+Fråga 2: Gå till databasen animalsdb.
 
 Input:
 
 Output:
 
 
-Fråga 3:
+Fråga 3: Skriv i mongo-skalet : load ("animals.js"). Vad gör den raden? Visa resultatet.
 
 Input:
 
 Output:
 
 
-Fråga 4:
+Fråga 4: Hitta alla data från collection animals.
 
 Input:
 
 Output:
 
 
-Fråga 5:
+Fråga 5: Hitta hur många djur det finns totalt i databasen animals?
 
 Input:
 
 Output:
 
 
-Fråga 6:
+Fråga 6: Lägg till en array “favorit_food” med “blueberry, honey och ants” för “Bear” .
 
 Input:
 
 Output:
 
 
-Fråga 7:
+Fråga 7: Ta bort ants och honey från arrayen “favorit_food” och “rounded ears” från arrayen “data” för “Bear”.
 
 Input:
 
 Output:
 
 
-Fråga 8:
+Fråga 8: Hitta hur många gula djur det finns i kollektionen.
 
 Input:
 
 Output:
 
-Fråga 9:
-
-Input:
-
-Output:
-
-
-Fråga 10:
+Fråga 9: Hitta alla namnet på alla djur vars färg är brun och som lever i Asien och visa deras namn, color och found_in .
 
 Input:
 
 Output:
 
 
-Fråga 11:
+Fråga 10: Lägg till fältet “litter_size” med värdet “4-6-kits” för “Fox”.
 
 Input:
 
 Output:
 
 
-Fråga 12:
+Fråga 11: Lägg till ett fält med namn “likes meat” i arrayen “data” för alla med "order": "Carnivora" och som är gula till färgen.
 
 Input:
 
 Output:
 
 
-Fråga 13:
+Fråga 12: Gruppera efter färger och visa antal djur per färg.
 
 Input:
 
 Output:
 
 
-Fråga 14:
+Fråga 13: Skriv ut antalet djur som väger mer än 100.
 
 Input:
 
 Output:
 
 
-Fråga 15:
+Fråga 14: Skriv ut djur med “order” “Carnivora”, sorterat efter weight i fallande ordning.
 
 Input:
 
 Output:
 
 
-Fråga 16:
+Fråga 15: Hitta alla dokument som har “mammal” eller "carnivore" i deras “data” fält.
+
+Input:
+
+Output:
+
+
+Fråga 16: Hitta alla dokument som har “mammal” och "carnivore" i deras “data” fält.
 
 Input:
 
