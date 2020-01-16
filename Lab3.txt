@@ -1,9 +1,22 @@
 Task 1
-Fråga 1:
+Fråga 1: Skapa en databas vid namn citydb.
+
+Input: use citydb
+
+Output: switched to db citydb
+
+Fråga 2: Sätt in följande dokument i en kollektion med namn: cities
+a. _id:1, name: Stockholm, population: 1372565
+b. _id:2, name: Göteborg, population: 549839
+c. _id:3, name: Malmö, population: 280415
+d. _id:4, name: Uppsala, population: 140454
+e. _id:5, name: Västerås, population: 110877
+
 
 Input:
 
 Output:
+
 
 
 Fråga 3:
@@ -13,7 +26,13 @@ Input:
 Output:
 
 
-Fråga 4:
+Fråga 4:Sätt in följande dokument i en kollektion med namn: cities
+a. _id:1, name: Stockholm, population: 1372565
+b. _id:2, name: Göteborg, population: 549839
+c. _id:3, name: Malmö, population: 280415
+d. _id:4, name: Uppsala, population: 140454
+e. _id:5, name: Västerås, population: 110877
+
 
 Input:
 
