@@ -9,31 +9,29 @@ namespace MongoLab
     {
         static void Main(string[] args)
         {
-            //connection
+            MongoClient mongoClient = EstablishConnection();
+            
+            var db = mongoClient.GetDatabase("Lab3");
+
+            var collection = db.GetCollection<Restaurant>("resturants");
+
+            CreateAndInsertRestaurants(collection);
+
+
+        }
+
+        private static MongoClient EstablishConnection()
+        {
             MongoUrlBuilder mongoUrlBuilder = new MongoUrlBuilder();
             mongoUrlBuilder.Scheme = MongoDB.Driver.Core.Configuration.ConnectionStringScheme.MongoDB;
             mongoUrlBuilder.Server = new MongoServerAddress("localhost", 27017);
             var clientSettings = mongoUrlBuilder.ToMongoUrl();
-            MongoClient mongoClient = new MongoClient(clientSettings);
-
-            var db = mongoClient.GetDatabase("Lab3");
-
-            var restaurantCollection = db.GetCollection<Restaurant>("resturants");
-
-            List<Restaurant> restaurants = CreateRestaurants();
-
-            foreach (var restaurant in restaurants)
-            {
-                restaurantCollection.InsertOne(restaurant);
-            }
-
-            
-
+            return new MongoClient(clientSettings);
         }
 
-        private static List<Restaurant> CreateRestaurants()
+        private static void CreateAndInsertRestaurants(IMongoCollection<Restaurant> collection)
         {
-            return new List<Restaurant>()
+            var restaurants = new List<Restaurant>()
             {
                 new Restaurant()
                 {
@@ -72,6 +70,10 @@ namespace MongoLab
                     }
                 }
             };
+            foreach (var restaurant in restaurants)
+            {
+                collection.InsertOne(restaurant);
+            }
         }
     }
 }
