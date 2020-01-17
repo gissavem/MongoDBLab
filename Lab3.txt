@@ -153,9 +153,9 @@ Output:
 
 Fråga 9:  Hitta alla namnet på alla djur vars färg är brun och som lever i Asien och visa deras namn, color och found_in .
 
-Input:
+Input:db.animals.find({color:"brown", found_in: "Asia"},{_id:0,name:1, color:1, found_in:1})
 
-Output:
+Output: { "name" : "Bear", "color" : "brown", "found_in" : [ "North America", "South America", "Europe", "Asia" ] }
 
 
 Fråga 10:   Lägg till fältet “litter_size” med värdet “4-6-kits” för “Fox”.
@@ -174,9 +174,14 @@ Output:
 
 Fråga 12:   Gruppera efter färger och visa antal djur per färg.
 
-Input:
+Input:  db.animals.aggregate([{$group: {_id: "$color", count: {$sum:1}}}])
 
-Output:
+Output: { "_id" : "orange", "count" : 2 }
+{ "_id" : "brown", "count" : 5 }
+{ "_id" : "yellow", "count" : 2 }
+{ "_id" : "grey", "count" : 3 }
+{ "_id" : "gray", "count" : 1 }
+{ "_id" : "black", "count" : 3 }
 
 
 Fråga 13:   Skriv ut antalet djur som väger mer än 100.
@@ -188,10 +193,19 @@ Output:
 
 Fråga 14:   Skriv ut djur med “order” “Carnivora”, sorterat efter weight i fallande ordning.
 
-Input:
+Input: db.animals.find({order: "Carnivora"},{_id:0,name:1, weight:1}).sort({weight:-1}) //Bryter mot specen för lättläsligt resultat
 
 Output:
-
+{ "name" : "Bear", "weight" : 505 }
+{ "name" : "Lion", "weight" : 200 }
+{ "name" : "Black panther", "weight" : 60 }
+{ "name" : "Hyena", "weight" : 47 }
+{ "name" : "Wolf", "weight" : 44 }
+{ "name" : "Fox", "weight" : 6 }
+{ "name" : "Raccoon", "weight" : 6 }
+{ "name" : "Mongoose", "weight" : 1.7 }
+{ "name" : "Marten", "weight" : 1.5 }
+{ "name" : "Meerkat", "weight" : 1 }
 
 Fråga 15:   Hitta alla dokument som har “mammal” eller "carnivore" i deras “data” fält.
 
@@ -202,9 +216,12 @@ Output:
 
 Fråga 16:   Hitta alla dokument som har “mammal” och "carnivore" i deras “data” fält.
 
-Input:
+Input: db.animals.find({data:"mammal",$and: [{data:"carnivore"}]})
 
 Output:
+{ "_id" : ObjectId("5e1ed4130f6ce37036c2b454"), "name" : "Wolf", "class" : "Mammalia", "order" : "Carnivora", "suborder" : "Caniformia", "color" : "grey", "weight" : 44, "min_weight_male" : 43, "max_weight_male" : 45, "min_weight_female" : 36, "max_weight_female" : 38.5, "found_in" : [ "Eurasia", "North America" ], "data" : [ "mammal", "carnivore", "canid", "live in groups" ] }
+{ "_id" : ObjectId("5e1ed4130f6ce37036c2b455"), "name" : "Bear", "color" : "brown", "weight" : 505, "found_in" : [ "North America", "South America", "Europe", "Asia" ], "class" : "Mammalia", "order" : "Carnivora", "suborder" : "Caniformia", "family" : "Ursidae", "data" : [ "mammal", "carnivore", "nonretractile claws", "can stand on its rear legs" ], "favorit_food" : [ "blueberry" ] }
+{ "_id" : ObjectId("5e1ed4130f6ce37036c2b456"), "name" : "Hyena", "family" : "Hyaenidae", "suborder" : "Feliformia", "order" : "Carnivora", "color" : "brown", "weight" : 47, "min_weight_male" : 40.5, "max_weight_male" : 55, "min_weight_female" : 44.5, "max_weight_female" : 63.9, "spotted" : true, "data" : [ "mammal", "carnivore", "live in groups" ] }
 
 
 -----------------------------------------------------------------------
