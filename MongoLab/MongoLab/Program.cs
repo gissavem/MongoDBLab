@@ -39,10 +39,10 @@ namespace MongoLab
 
         private static void PrintRestaurantsWithFourStars(IMongoCollection<Restaurant> collection)
         {
-            var filter = Builders<Restaurant>.Filter.Gte("stars", 4);
-            var ratedRestaurants = collection.Find(filter).Project("{_id:0,name:1, stars:1}");
+            var filter = Builders<Restaurant>.Filter.Gte("stars", 4) ;
+            var ratedRestaurants = collection.Find(filter).Project("{_id:0,name:1}"); ;
 
-            
+            Console.WriteLine("Printing restaurants with 4stars..\n\n");
             foreach (var item in ratedRestaurants.ToEnumerable())
             {
                 Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
@@ -56,6 +56,8 @@ namespace MongoLab
 
             var cafeCollection = collection.Find(filter).Project("{_id:0,name:1}");
             
+
+
             foreach (var item in cafeCollection.ToEnumerable())
             {
                 Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
