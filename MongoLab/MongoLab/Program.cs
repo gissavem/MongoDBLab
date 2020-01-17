@@ -3,10 +3,8 @@ using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Driver.Builders;
-
-using System.Linq;
 using Newtonsoft.Json;
+
 namespace MongoLab
 {
     class Program
@@ -24,13 +22,15 @@ namespace MongoLab
             PrintAllCafes(collection);
             PrintRestaurantsWithFourStars(collection);
             }
+        //Skriv en metod som aggregerar en lista med alla restauranger som har 4 eller fler “stars” och skriver ut endast “name” och “stars” 
+        //OBS! Metoderna ska skriva ut via Console.Writeline resultatet, det vill säga, när jag kör ert program ska jag se resultatet från utskrifterna
 
         private static void PrintRestaurantsWithFourStars(IMongoCollection<Restaurant> collection)
         {
-            var filter = Builders<Restaurant>.Filter.Gte("stars", 4);
-            var ratedRestaurants = collection.Find(filter).Project("{_id:0,name:1, stars:1}");
+            var filter = Builders<Restaurant>.Filter.Gte("stars", 4) ;
+            var ratedRestaurants = collection.Find(filter).Project("{_id:0,name:1}"); ;
 
-            
+            Console.WriteLine("Printing restaurants with 4stars..\n\n");
             foreach (var item in ratedRestaurants.ToEnumerable())
             {
                 Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
@@ -42,7 +42,7 @@ namespace MongoLab
             Console.WriteLine("Printing all cafes..\n\n");
             var filter = Builders<Restaurant>.Filter.Eq("categories", "Cafe");
 
-            var cafeCollection = collection.Aggregate(filter).Project("{_id:0,name:1}");
+            var cafeCollection = collection.Find(filter).Project("{_id:0,name:1}");
             
 
 
