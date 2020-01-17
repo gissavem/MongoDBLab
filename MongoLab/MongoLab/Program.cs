@@ -3,10 +3,8 @@ using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MongoDB.Driver.Builders;
-
-using System.Linq;
 using Newtonsoft.Json;
+
 namespace MongoLab
 {
     class Program
@@ -18,12 +16,26 @@ namespace MongoLab
             var db = mongoClient.GetDatabase("Lab3");
 
             var collection = db.GetCollection<Restaurant>("resturants");
-            //SeedDatabase(collection);
+            SeedDatabase(collection);
+
 
             PrintFullCollection(collection);
             PrintAllCafes(collection);
+            IncrementStars(collection);
             PrintRestaurantsWithFourStars(collection);
-            }
+            string oldName = "456 Cookies Shop";
+            string newName = "123 Cookies Heaven";
+            UpdateName(collection, oldName, newName);
+            PrintFullCollection(collection);
+        }
+
+        private static void IncrementStars(IMongoCollection<Restaurant> collection)
+        {
+            var restaurantToUpdate = "XYZ Coffee Bar";
+            var filter = Builders<Restaurant>.Filter.Eq("name", restaurantToUpdate);
+            var update = Builders<Restaurant>.Update.Inc("stars", 1);
+            collection.UpdateOne(filter, update);
+        }
 
         private static void PrintRestaurantsWithFourStars(IMongoCollection<Restaurant> collection)
         {
@@ -42,10 +54,8 @@ namespace MongoLab
             Console.WriteLine("Printing all cafes..\n\n");
             var filter = Builders<Restaurant>.Filter.Eq("categories", "Cafe");
 
-            var cafeCollection = collection.Aggregate(filter).Project("{_id:0,name:1}");
+            var cafeCollection = collection.Find(filter).Project("{_id:0,name:1}");
             
-
-
             foreach (var item in cafeCollection.ToEnumerable())
             {
                 Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
