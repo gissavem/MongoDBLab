@@ -142,7 +142,7 @@ Fråga 7:  Ta bort ants och honey från arrayen “favorit_food” och “rounde
 
 Input: db.animals.updateOne({name: "Bear"}, {$pull: {favorit_food:{$in: ["honey", "ants"]} ,data:{$in: ["rounded ears"]   }}})
 
-Output:
+Output: { "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
 
 
 Fråga 8:  Hitta hur många gula djur det finns i kollektionen.
