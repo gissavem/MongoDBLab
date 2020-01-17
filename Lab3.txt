@@ -242,8 +242,25 @@ Task 3
 Fråga 1:  Sätt in följande record i kollektion orders: XXXXXX
 
 Input:
+db.orders.insertMany([
+  {_id:100,name:"Eva",subscriber: true, payment:{type: "Credit-Card", total: 400,success: true},note: "1st Complete Record"},
+  {_id:101, name: "Johan", subscriber:true,payment:{type:"Debit-Card",total:500,success:true},note: null},
+  {_id:102,name:"Matilda",subscriber:true,payment:{type:"Credit-Card",total:700,success:false}},
+  {_id:103,name:"Mikael",subscriber:false,payment:null,note:"Payment is Null"},
+  {_id:104,name:"Rikard",subscriber:false,payment:{type:"Debit-Card",total:300,success:false},note:"Completed Payment"}
+])
 
 Output:
+{
+        "acknowledged" : true,
+        "insertedIds" : [
+                100,
+                101,
+                102,
+                103,
+                104
+        ]
+}
 
 
 Fråga 2:  Hitta alla dokument där fältet “Note” är “null” eller saknas .
