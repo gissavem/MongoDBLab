@@ -15,15 +15,44 @@ namespace MongoLab
             var db = mongoClient.GetDatabase("Lab3");
 
             var collection = db.GetCollection<Restaurant>("resturants");
-            SeedDatabase(collection);
+            //SeedDatabase(collection);
 
-            PrintCollection(collection);
+            PrintFullCollection(collection);
+            PrintAllCafes(collection);
+            PrintRestaurantsWithFourStars(collection);
+            }
 
+        private static void PrintRestaurantsWithFourStars(IMongoCollection<Restaurant> collection)
+        {
+            var filter = Builders<Restaurant>.Filter.Gte("stars", 4);
+            var ratedRestaurants = collection.Find(filter).Project("{_id:0,name:1, stars:1}");
 
+            
+            foreach (var item in ratedRestaurants.ToEnumerable())
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
+            }
         }
 
-        private static void PrintCollection(IMongoCollection<Restaurant> collection)
+        private static void PrintAllCafes(IMongoCollection<Restaurant> collection)
         {
+            Console.WriteLine("Printing all cafes..\n\n");
+            var filter = Builders<Restaurant>.Filter.Eq("categories", "Cafe");
+
+            var cafeCollection = collection.Aggregate(filter).Project("{_id:0,name:1}");
+            
+
+
+            foreach (var item in cafeCollection.ToEnumerable())
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
+            }
+        }
+
+        private static void PrintFullCollection(IMongoCollection<Restaurant> collection)
+        {
+            Console.WriteLine("Printing all restaurants..\n\n");
+
             var fullCollection = collection.Find(Builders<Restaurant>.Filter.Empty);
 
             foreach (var item in fullCollection.ToEnumerable())
@@ -79,6 +108,15 @@ namespace MongoLab
                     Categories = new List<string>()
                     {
                         "Bakery", "Cookies", "Cake", "Coffee"
+                    }
+                },
+                new Restaurant()
+                {
+                    Name = "Hot Bakery Cafe",
+                    Stars = 4,
+                    Categories = new List<string>()
+                    {
+                        "Bakery", "Cafe", "Coffee", "Dessert"
                     }
                 }
             };
