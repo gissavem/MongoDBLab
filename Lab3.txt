@@ -265,45 +265,42 @@ Output:
 
 Fråga 2:  Hitta alla dokument där fältet “Note” är “null” eller saknas .
 
-Input:
+Input: db.orders.find({"note": null})
 
 Output:
-
+{ "_id" : 101, "name" : "Johan", "subscriber" : true, "payment" : { "type" : "Debit-Card", "total" : 500, "success" : true }, "note" : null }
+{ "_id" : 102, "name" : "Matilda", "subscriber" : true, "payment" : { "type" : "Credit-Card", "total" : 700, "success" : false } }
 
 Fråga 3:  Hitta alla dokument där fältet “Note” saknas.
 
-Input:
+Input: db.orders.find({"note": {$exists: false} })
 
-Output:
+Output: { "_id" : 102, "name" : "Matilda", "subscriber" : true, "payment" : { "type" : "Credit-Card", "total" : 700, "success" : false } }
 
 
 Fråga 4:  Hitta alla dokument som har "Type": "Credit-Card" sorterat efter “Total” i stigande ordning.
 
-Input:
+Input:  db.orders.find({"payment.type":"Credit-Card"}).sort({"payment.total":1})
 
 Output:
+{ "_id" : 100, "name" : "Eva", "subscriber" : true, "payment" : { "type" : "Credit-Card", "total" : 400, "success" : true }, "note" : "1st Complete Record" }
+{ "_id" : 102, "name" : "Matilda", "subscriber" : true, "payment" : { "type" : "Credit-Card", "total" : 700, "success" : false } }
 
 
 Fråga 5:  Sortera all dokument efter Total i fallande ordning och visa bara dokument 2 och 3.
 
-Input:
+Input: db.orders.find().sort({"payment.total":-1}).skip(1).limit(2)
 
 Output:
+{ "_id" : 101, "name" : "Johan", "subscriber" : true, "payment" : { "type" : "Debit-Card", "total" : 500, "success" : true }, "note" : null }
+{ "_id" : 100, "name" : "Eva", "subscriber" : true, "payment" : { "type" : "Credit-Card", "total" : 400, "success" : true }, "note" : "1st Complete Record" }
 
 
 Fråga 6:  Aggregera “Success” och visa antal i fallande ordning. (Hur många “Success” är “true” och hur många är “false”).
-          Exempel på hur svarsfilen för G-uppgiften ska se ut, formmässigt
-          Namn: Johan Mongosson Task 1. Fråga 1.
-          Skapa en databas vid namn fruits
-          > <<här skriver du ditt mongo-kommand>>
-          Switched to db fruits ← Detta är vad mongodb svarar! Skall vara med.
-          Fråga 2. Skapa en collection vid namn “citrus”
-          > <<här skriver du ditt mongo-kommando>>
-          { "ok" : 1 } ← Detta är vad mongodb svarar, det ska du ta med i din fil.
-          Fråga 3. Hitta alla dokument i collection “citrus”
-          > <<här skriver du ditt mongo-kommando>>
-          { "_id" : 1, "name" : "orange" } { "_id" : 2, "name" : "lemon" } osv...
 
-Input:
+Input: db.orders.aggregate({$sortByCount: "$payment.success"})
 
 Output:
+{ "_id" : false, "count" : 2 }
+{ "_id" : true, "count" : 2 }
+{ "_id" : null, "count" : 1 }
