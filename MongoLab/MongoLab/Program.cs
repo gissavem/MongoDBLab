@@ -2,7 +2,8 @@
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
+using Newtonsoft.Json;
 namespace MongoLab
 {
     class Program
@@ -14,10 +15,21 @@ namespace MongoLab
             var db = mongoClient.GetDatabase("Lab3");
 
             var collection = db.GetCollection<Restaurant>("resturants");
+            SeedDatabase(collection);
 
-            CreateAndInsertRestaurants(collection);
+            PrintCollection(collection);
 
 
+        }
+
+        private static void PrintCollection(IMongoCollection<Restaurant> collection)
+        {
+            var fullCollection = collection.Find(Builders<Restaurant>.Filter.Empty);
+
+            foreach (var item in fullCollection.ToEnumerable())
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
+            }
         }
 
         private static MongoClient EstablishConnection()
@@ -29,7 +41,7 @@ namespace MongoLab
             return new MongoClient(clientSettings);
         }
 
-        private static void CreateAndInsertRestaurants(IMongoCollection<Restaurant> collection)
+        private static void SeedDatabase(IMongoCollection<Restaurant> collection)
         {
             var restaurants = new List<Restaurant>()
             {
