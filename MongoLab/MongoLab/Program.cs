@@ -1,5 +1,7 @@
 ﻿using MongoDB.Driver;
+using MongoDB.Bson;
 using System;
+using System.Collections.Generic;
 
 namespace MongoLab
 {
@@ -15,11 +17,61 @@ namespace MongoLab
             MongoClient mongoClient = new MongoClient(clientSettings);
 
             var db = mongoClient.GetDatabase("Lab3");
-            string content = "";
-            var collection = db.GetCollection<Resturants>("resturants");
-            collection.InsertMany()
 
+            var restaurantCollection = db.GetCollection<Restaurant>("resturants");
 
+            List<Restaurant> restaurants = CreateRestaurants();
+
+            foreach (var restaurant in restaurants)
+            {
+                restaurantCollection.InsertOne(restaurant);
+            }
+
+            
+
+        }
+
+        private static List<Restaurant> CreateRestaurants()
+        {
+            return new List<Restaurant>()
+            {
+                new Restaurant()
+                {
+                    Name = "Sun Bakery Trattoria",
+                    Stars = 4,
+                    Categories = new List<string>()
+                    {
+                        "Pizza", "Pasta", "Italian", "Coffee", "Sandwiches"
+                    }
+                },
+                new Restaurant()
+                {
+                    Name = "Blue Bagels Grill",
+                    Stars = 3,
+                    Categories = new List<string>()
+                    {
+                        "Bagels", "Cookies", "Sandwiches"
+                    }
+                },
+                new Restaurant()
+                {
+                    Name = "XYZ Coffee Bar",
+                    Stars = 5,
+                    Categories = new List<string>()
+                    {
+                        "Coffee", "Cafe", "Bakery", "Chocolates"
+                    }
+                },
+                new Restaurant()
+                {
+                    Name = "456 Cookies Shop",
+                    Stars = 4,
+                    Categories = new List<string>()
+                    {
+                        "Bakery", "Cookies", "Cake", "Coffee"
+                    }
+                }
+            };
         }
     }
 }
