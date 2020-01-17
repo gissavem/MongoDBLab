@@ -133,23 +133,24 @@ Output: 16
 
 Fråga 6:  Lägg till en array “favorit_food” med “blueberry, honey och ants” för “Bear” .
 
-Input: db.animals.updateOne({name: "Bear"}, {$set: {favorit_food: ["honey", "ants"] }})
+Input: db.animals.updateOne({name: "Bear"}, {$set: {favorit_food: ["honey", "ants", "blueberry"] }})
 
 Output: { "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
 
 
 Fråga 7:  Ta bort ants och honey från arrayen “favorit_food” och “rounded ears” från arrayen “data” för “Bear”.
 
-Input:
+Input: db.animals.updateOne({name: "Bear"}, {$pull: {favorit_food:{$in: ["honey", "ants"]} ,data:{$in: ["rounded ears"]   }}})
 
 Output:
 
 
 Fråga 8:  Hitta hur många gula djur det finns i kollektionen.
 
-Input:
+Input: db.animals.find({"color": "yellow"})
 
-Output:
+Output: { "_id" : ObjectId("5e206b2a989e457ebcf063ac"), "name" : "Meerkat", "found_in" : [ "Botswana", "Namibia", "Angola", "South Africa" ], "color" : "yellow", "family" : "Herpestidae", "suborder" : "Feliformia", "order" : "Carnivora", "weight" : 1, "data" : [ "can stand on its rear legs", "live in groups" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063ad"), "name" : "Lion", "color" : "yellow", "weight" : 200, "class" : "Mammalia", "order" : "Carnivora", "family" : "Felidae", "subfamily" : "Pantherinae", "suborder" : "Feliformia", "data" : [ "live in groups", "carnivore", "smaller than tigers", "protractible claws" ] }
 
 Fråga 9:  Hitta alla namnet på alla djur vars färg är brun och som lever i Asien och visa deras namn, color och found_in .
 
@@ -160,16 +161,16 @@ Output: { "name" : "Bear", "color" : "brown", "found_in" : [ "North America", "S
 
 Fråga 10:   Lägg till fältet “litter_size” med värdet “4-6-kits” för “Fox”.
 
-Input:
+Input: db.animals.updateOne({name: "Fox"}, {$set: {litter_size: "4-6-kits" }})
 
-Output:
+Output: "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
 
 
 Fråga 11:   Lägg till ett fält med namn “likes meat” i arrayen “data” för alla med "order": "Carnivora" och som är gula till färgen.
 
-Input:
+Input: db.animals.update({order: "Carnivora", color: "yellow"}, {$push: {data: ["likes meat"] }     },{multi: true} )
 
-Output:
+Output: WriteResult({ "nMatched" : 2, "nUpserted" : 0, "nModified" : 2 })
 
 
 Fråga 12:   Gruppera efter färger och visa antal djur per färg.
@@ -186,9 +187,9 @@ Output: { "_id" : "orange", "count" : 2 }
 
 Fråga 13:   Skriv ut antalet djur som väger mer än 100.
 
-Input:
+Input: db.animals.find( { weight: {$gt:100}}).count()
 
-Output:
+Output: 6
 
 
 Fråga 14:   Skriv ut djur med “order” “Carnivora”, sorterat efter weight i fallande ordning.
@@ -209,16 +210,28 @@ Output:
 
 Fråga 15:   Hitta alla dokument som har “mammal” eller "carnivore" i deras “data” fält.
 
-Input:
+Input: db.animals.find({"data": "Carnivora", "data": "mammal"})
 
-Output:
+Output: { "_id" : ObjectId("5e206b2a989e457ebcf063a0"), "name" : "Elephant", "color" : "grey", "weight" : 7000, "has_tusks" : true, "data" : [ "mammal", "herbivore", "live in groups" ], "found_in" : [ "sub-Saharan Africa", "South Asia", "Southeast Asia" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a1"), "name" : "Elk", "color" : "brown", "weight" : 395, "min_weight_male" : 320, "max_weight_male" : 475, "min_weight_female" : 275, "max_weight_female" : 375, "has_antlers" : true, "data" : [ "mammal", "deer family", "herbivore" ], "found_in" : [ "Canada", "Alaska", "New England", "Scandinavia", "Latvia", "Estonia", "Russia" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a2"), "name" : "Fox", "color" : "orange", "weight" : 6, "suborder" : "Caniformia", "class" : "Mammalia", "order" : "Carnivora", "family" : "Canidae", "data" : [ "mammal", "omnivore" ], "litter_size" : "4-6-kits" }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a3"), "name" : "Wolf", "class" : "Mammalia", "order" : "Carnivora", "suborder" : "Caniformia", "color" : "grey", "weight" : 44, "min_weight_male" : 43, "max_weight_male" : 45, "min_weight_female" : 36, "max_weight_female" : 38.5, "found_in" : [ "Eurasia", "North America" ], "data" : [ "mammal", "carnivore", "canid", "live in groups" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a4"), "name" : "Bear", "color" : "brown", "weight" : 505, "found_in" : [ "North America", "South America", "Europe", "Asia" ], "class" : "Mammalia", "order" : "Carnivora", "suborder" : "Caniformia", "family" : "Ursidae", "data" : [ "mammal", "carnivore", "nonretractile claws", "can stand on its rear legs" ], "favorit_food" : [ "blueberry" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a5"), "name" : "Hyena", "family" : "Hyaenidae", "suborder" : "Feliformia", "order" : "Carnivora", "color" : "brown", "weight" : 47, "min_weight_male" : 40.5, "max_weight_male" : 55, "min_weight_female" : 44.5, "max_weight_female" : 63.9, "spotted" : true, "data" : [ "mammal", "carnivore", "live in groups" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a7"), "name" : "Reindeer", "class" : "Mammalia", "color" : "grey", "weight" : 200, "alternative_name" : "caribou", "has_antlers" : true, "found_in" : [ "northern Europe", "Siberia", "North America" ], "data" : [ "mammal", "deer family", "herbivore", "live in groups" ] }
 
 
 Fråga 16:   Hitta alla dokument som har “mammal” och "carnivore" i deras “data” fält.
 
 Input: db.animals.find({data:"mammal",$and: [{data:"carnivore"}]})
 
-Output:
+Output: { "_id" : ObjectId("5e206b2a989e457ebcf063a0"), "name" : "Elephant", "color" : "grey", "weight" : 7000, "has_tusks" : true, "data" : [ "mammal", "herbivore", "live in groups" ], "found_in" : [ "sub-Saharan Africa", "South Asia", "Southeast Asia" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a1"), "name" : "Elk", "color" : "brown", "weight" : 395, "min_weight_male" : 320, "max_weight_male" : 475, "min_weight_female" : 275, "max_weight_female" : 375, "has_antlers" : true, "data" : [ "mammal", "deer family", "herbivore" ], "found_in" : [ "Canada", "Alaska", "New England", "Scandinavia", "Latvia", "Estonia", "Russia" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a2"), "name" : "Fox", "color" : "orange", "weight" : 6, "suborder" : "Caniformia", "class" : "Mammalia", "order" : "Carnivora", "family" : "Canidae", "data" : [ "mammal", "omnivore" ], "litter_size" : "4-6-kits" }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a3"), "name" : "Wolf", "class" : "Mammalia", "order" : "Carnivora", "suborder" : "Caniformia", "color" : "grey", "weight" : 44, "min_weight_male" : 43, "max_weight_male" : 45, "min_weight_female" : 36, "max_weight_female" : 38.5, "found_in" : [ "Eurasia", "North America" ], "data" : [ "mammal", "carnivore", "canid", "live in groups" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a4"), "name" : "Bear", "color" : "brown", "weight" : 505, "found_in" : [ "North America", "South America", "Europe", "Asia" ], "class" : "Mammalia", "order" : "Carnivora", "suborder" : "Caniformia", "family" : "Ursidae", "data" : [ "mammal", "carnivore", "nonretractile claws", "can stand on its rear legs" ], "favorit_food" : [ "blueberry" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a5"), "name" : "Hyena", "family" : "Hyaenidae", "suborder" : "Feliformia", "order" : "Carnivora", "color" : "brown", "weight" : 47, "min_weight_male" : 40.5, "max_weight_male" : 55, "min_weight_female" : 44.5, "max_weight_female" : 63.9, "spotted" : true, "data" : [ "mammal", "carnivore", "live in groups" ] }
+{ "_id" : ObjectId("5e206b2a989e457ebcf063a7"), "name" : "Reindeer", "class" : "Mammalia", "color" : "grey", "weight" : 200, "alternative_name" : "caribou", "has_antlers" : true, "found_in" : [ "northern Europe", "Siberia", "North America" ], "data" : [ "mammal", "deer family", "herbivore", "live in groups" ] }
 { "_id" : ObjectId("5e1ed4130f6ce37036c2b454"), "name" : "Wolf", "class" : "Mammalia", "order" : "Carnivora", "suborder" : "Caniformia", "color" : "grey", "weight" : 44, "min_weight_male" : 43, "max_weight_male" : 45, "min_weight_female" : 36, "max_weight_female" : 38.5, "found_in" : [ "Eurasia", "North America" ], "data" : [ "mammal", "carnivore", "canid", "live in groups" ] }
 { "_id" : ObjectId("5e1ed4130f6ce37036c2b455"), "name" : "Bear", "color" : "brown", "weight" : 505, "found_in" : [ "North America", "South America", "Europe", "Asia" ], "class" : "Mammalia", "order" : "Carnivora", "suborder" : "Caniformia", "family" : "Ursidae", "data" : [ "mammal", "carnivore", "nonretractile claws", "can stand on its rear legs" ], "favorit_food" : [ "blueberry" ] }
 { "_id" : ObjectId("5e1ed4130f6ce37036c2b456"), "name" : "Hyena", "family" : "Hyaenidae", "suborder" : "Feliformia", "order" : "Carnivora", "color" : "brown", "weight" : 47, "min_weight_male" : 40.5, "max_weight_male" : 55, "min_weight_female" : 44.5, "max_weight_female" : 63.9, "spotted" : true, "data" : [ "mammal", "carnivore", "live in groups" ] }
