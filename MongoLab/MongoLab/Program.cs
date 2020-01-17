@@ -2,6 +2,8 @@
 using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using MongoDB.Driver.Builders;
 
 namespace MongoLab
 {
@@ -27,6 +29,20 @@ namespace MongoLab
             mongoUrlBuilder.Server = new MongoServerAddress("localhost", 27017);
             var clientSettings = mongoUrlBuilder.ToMongoUrl();
             return new MongoClient(clientSettings);
+        }
+        //Skriv en metod som uppdaterar “name” för "456 Cookies Shop" till “123 Cookies Heaven” 
+        private static void UpdateName(IMongoCollection<Restaurant> collection, string nameToUpdate, string newName)
+        {
+            var builder = Builders<Restaurant>.Filter;
+            var filter = builder.Eq("name", nameToUpdate);
+            collection.UpdateOne(filter, newName);
+        }
+
+        //Skriv en metod som uppdaterar genom increment “stars” för den restaurang som har “name” “XYZ Coffee Bar” så att nya värdet på stars blir 6. 
+        //OBS! Ni ska använda increment
+        private static void IncrementStar(IMongoCollection<Restaurant> collection, string restaurantToUpdate, int numberOfStars)
+        {
+            
         }
 
         private static void CreateAndInsertRestaurants(IMongoCollection<Restaurant> collection)
