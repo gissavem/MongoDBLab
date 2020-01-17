@@ -1,15 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using MongoDB.Driver;
 using MongoDB.Bson;
 
-
 namespace MongoLab
 {
-    class Program
+    class Restaurant
     {
-        static void Main(string[] args)
-        {
- 
-        }
     }
 }
