@@ -22,10 +22,10 @@ namespace MongoLab
             PrintFullCollection(collection);
             PrintAllCafes(collection);
             IncrementStars(collection);
-            PrintRestaurantsWithFourStars(collection);
             string oldName = "456 Cookies Shop";
             string newName = "123 Cookies Heaven";
             UpdateName(collection, oldName, newName);
+            PrintRestaurantsWithFourStars(collection);
             PrintFullCollection(collection);
         }
 
@@ -40,7 +40,7 @@ namespace MongoLab
         private static void PrintRestaurantsWithFourStars(IMongoCollection<Restaurant> collection)
         {
             var filter = Builders<Restaurant>.Filter.Gte("stars", 4) ;
-            var ratedRestaurants = collection.Find(filter).Project("{_id:0,name:1}"); ;
+            var ratedRestaurants = collection.Find(filter).Project("{_id:0,name:1,stars:1}"); ;
 
             Console.WriteLine("Printing restaurants with 4stars..\n\n");
             foreach (var item in ratedRestaurants.ToEnumerable())
@@ -84,7 +84,6 @@ namespace MongoLab
             var clientSettings = mongoUrlBuilder.ToMongoUrl();
             return new MongoClient(clientSettings);
         }
-        //Skriv en metod som uppdaterar “name” för "456 Cookies Shop" till “123 Cookies Heaven” 
         private static void UpdateName(IMongoCollection<Restaurant> collection, string nameToUpdate, string newName)
         {
             var builder = Builders<Restaurant>.Filter;
