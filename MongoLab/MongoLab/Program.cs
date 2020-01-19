@@ -76,6 +76,12 @@ namespace MongoLab
             }
         }
 
+        private static void UpdateName(IMongoCollection<Restaurant> collection, string nameToUpdate, string newName)
+        {
+            var filter = Builders<Restaurant>.Filter.Eq("name", nameToUpdate);
+            var update = Builders<Restaurant>.Update.Set("name", newName);
+            collection.UpdateOne(filter, update);
+        }
         private static MongoClient EstablishConnection()
         {
             MongoUrlBuilder mongoUrlBuilder = new MongoUrlBuilder();
@@ -83,12 +89,6 @@ namespace MongoLab
             mongoUrlBuilder.Server = new MongoServerAddress("localhost", 27017);
             var clientSettings = mongoUrlBuilder.ToMongoUrl();
             return new MongoClient(clientSettings);
-        }
-        private static void UpdateName(IMongoCollection<Restaurant> collection, string nameToUpdate, string newName)
-        {
-            var builder = Builders<Restaurant>.Filter;
-            var filter = builder.Eq("name", nameToUpdate);
-            collection.UpdateOne(filter, newName);
         }
 
         private static void SeedDatabase(IMongoCollection<Restaurant> collection)
