@@ -12,25 +12,23 @@ namespace MongoLab
         static void Main(string[] args)
         {
             MongoClient mongoClient = EstablishConnection();
+            
             var db = mongoClient.GetDatabase("Lab3");
-            var collection = db.GetCollection<Restaurant>("restaurants");
+
+            var collection = db.GetCollection<Restaurant>("resturants");
             SeedDatabase(collection);
 
 
             PrintFullCollection(collection);
-
             PrintAllCafes(collection);
-
             IncrementStars(collection);
-            PrintFullCollection(collection);
-
             string oldName = "456 Cookies Shop";
             string newName = "123 Cookies Heaven";
             UpdateName(collection, oldName, newName);
-            PrintFullCollection(collection);
-
             PrintRestaurantsWithFourStars(collection);
+            PrintFullCollection(collection);
         }
+
         private static void IncrementStars(IMongoCollection<Restaurant> collection)
         {
             var restaurantToUpdate = "XYZ Coffee Bar";
@@ -38,6 +36,7 @@ namespace MongoLab
             var update = Builders<Restaurant>.Update.Inc("stars", 1);
             collection.UpdateOne(filter, update);
         }
+
         private static void PrintRestaurantsWithFourStars(IMongoCollection<Restaurant> collection)
         {
             var filter = Builders<Restaurant>.Filter.Gte("stars", 4) ;
@@ -49,26 +48,39 @@ namespace MongoLab
                 Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
             }
         }
+
         private static void PrintAllCafes(IMongoCollection<Restaurant> collection)
         {
             Console.WriteLine("Printing all cafes..\n\n");
             var filter = Builders<Restaurant>.Filter.Eq("categories", "Cafe");
+
             var cafeCollection = collection.Find(filter).Project("{_id:0,name:1}");
+            
+
 
             foreach (var item in cafeCollection.ToEnumerable())
             {
                 Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
             }
         }
+
         private static void PrintFullCollection(IMongoCollection<Restaurant> collection)
         {
             Console.WriteLine("Printing all restaurants..\n\n");
+
             var fullCollection = collection.Find(Builders<Restaurant>.Filter.Empty);
 
             foreach (var item in fullCollection.ToEnumerable())
             {
                 Console.WriteLine(JsonConvert.SerializeObject(item, Formatting.Indented));
             }
+        }
+
+        private static void UpdateName(IMongoCollection<Restaurant> collection, string nameToUpdate, string newName)
+        {
+            var filter = Builders<Restaurant>.Filter.Eq("name", nameToUpdate);
+            var update = Builders<Restaurant>.Update.Set("name", newName);
+            collection.UpdateOne(filter, update);
         }
         private static MongoClient EstablishConnection()
         {
@@ -78,12 +90,7 @@ namespace MongoLab
             var clientSettings = mongoUrlBuilder.ToMongoUrl();
             return new MongoClient(clientSettings);
         }
-        private static void UpdateName(IMongoCollection<Restaurant> collection, string nameToUpdate, string newName)
-        {
-            var builder = Builders<Restaurant>.Filter;
-            var filter = builder.Eq("name", nameToUpdate);
-            collection.UpdateOne(filter, newName);
-        }
+
         private static void SeedDatabase(IMongoCollection<Restaurant> collection)
         {
             var restaurants = new List<Restaurant>()
