@@ -1,8 +1,6 @@
 ﻿using MongoDB.Driver;
-using MongoDB.Bson;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Newtonsoft.Json;
 
 namespace MongoLab
@@ -12,13 +10,9 @@ namespace MongoLab
         static void Main(string[] args)
         {
             MongoClient mongoClient = EstablishConnection();
-            
             var db = mongoClient.GetDatabase("Lab3");
-
             var collection = db.GetCollection<Restaurant>("resturants");
             SeedDatabase(collection);
-
-
             PrintFullCollection(collection);
             PrintAllCafes(collection);
             IncrementStars(collection);
